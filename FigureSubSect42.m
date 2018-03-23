@@ -7,8 +7,8 @@
 % Generate Figures 1 to 4 in Subsection 4.2
 
 %% Notes
-% Requires a data file in data\ folder and two gamma indices that would be
-% treated as the knee and the safe knee
+% Requires a data file in data\ folder and two gamma indices that would be treated as the knee and the safe knee
+% Run multicriterion_CWH.m to get the data files after doing a clear
 
 clear
 clc
