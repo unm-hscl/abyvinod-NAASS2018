@@ -14,14 +14,12 @@ clear
 clc
 close all
 
+%% Edit these variables
 load('data\20171218_pareto_0x1.mat')
 pareto_optim_indx_Knee = 15;
 pareto_optim_indx_Knee_safe = 10;
 
-%load('data\20182623_110314pareto_umax_as_0x1.mat');
-%pareto_optim_indx_Knee = 15;
-%pareto_optim_indx_Knee_safe = 9;
-
+%% Plotting params
 pareto_optim_indx_onlySafety = 1;
 fontSizeVal = 25;
 color_onlySafety = 'r';

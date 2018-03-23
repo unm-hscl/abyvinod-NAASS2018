@@ -10,28 +10,30 @@
 % - Run FigureSubSect42.m to obtain the plots
 % - Generates two plots for visual confirmation but run the above script for the plots in the paper
 % - Uses the problem parameters (dynamics, safe set, target set, etc) defined in params.m
-% - Takes about 40 minutes to run on MATLAB with an Intel core i7-4600 processor with 2.1GHz clock rate and 8 GB RAM.
 
 %% Problem parameters
 if ~exist('umax','var')
-    clear
+    clear all
     clc
     close all
+    evalc('cvx_setup');
+    evalc('mpt_init');
+    fprintf('CVX and MPT3 setup done!\n\n\n')
     
+    datenowstr = strcat('data/',datestr(now,'yyyymmdd'),'_pareto_0x1.mat');
     umax=0.1;
+    flag_single_run = 1;
     fprintf('Creating data for Figures 1--4 in the NAASS paper (Subsection 4.2). (Takes about 40 minutes)\n')
     fprintf('umax = %1.4f\n', umax)
-    flag_single_run = 1;
-    datenowstr = strcat('data/',datestr(now,'YYYYMMDD_HHmmss'),'pareto_umax_as_0x1.mat');
 else
-    fprintf('Stop now and use clear if you wanted data for Figures 1--4.\n')
-    fprintf('umax = %1.4f\n', umax)
+    % Part of scan_through_umax.m (datenowstr and umax will be provided)
     flag_single_run = 0;
-    datenowstr = strcat('data/',datestr(now,'YYYYMMDD_HHmmss'),'pareto_umax_as_0x',sprintf('%1000d.mat', round(1000*umax))); 
+    fprintf('Stop now and do ''clear;multicriterion_CWH;'' if you want data for Figures 1--4.\n\n')
+    fprintf('umax = %1.4f\n', umax)
 end
 if ~exist('time_horizon','var')
     params
-    fprintf('Using params.m for parameters\n\n')
+    fprintf('Using params.m for parameters\n')
 end
 
 %% Time convention
@@ -177,6 +179,4 @@ scatter(initial_state(1),initial_state(2),100,'ks');
 scatter(initial_state(1),initial_state(2),100,'kx');
 title('Initialization trajectory for the patternsearch');
 
-if flag_single_run == 1
-    save(datenowstr);
-end
+save(datenowstr);

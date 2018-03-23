@@ -11,26 +11,29 @@
 % Run scan_through_umax.m to get the data files
 
 clear
+clc
+
+%% Edit this variable
+date_of_interest = '20171218'; %20180324'
+
+%% Data and plotting params
 pareto_optim_indx = [1,6,9,12];
 fontSizeVal = 25;
-load('data\20171218_pareto_0x05.mat')
-mat_control_effort_optimal_norm(1,:) = control_effort_optimal_norm;
-mat_safety_probability_optimal(1,:) = safety_probability_optimal;
-load('data\20171218_pareto_0x0625.mat')
-mat_control_effort_optimal_norm(2,:) = control_effort_optimal_norm;
-mat_safety_probability_optimal(2,:) = safety_probability_optimal;
-load('data\20171218_pareto_0x075.mat')
-mat_control_effort_optimal_norm(3,:) = control_effort_optimal_norm;
-mat_safety_probability_optimal(3,:) = safety_probability_optimal;
-load('data\20171218_pareto_0x1.mat')
-mat_control_effort_optimal_norm(4,:) = control_effort_optimal_norm;
-mat_safety_probability_optimal(4,:) = safety_probability_optimal;
-load('data\20171218_pareto_0x5.mat')
-mat_control_effort_optimal_norm(5,:) = control_effort_optimal_norm;
-mat_safety_probability_optimal(5,:) = safety_probability_optimal;
-upper_limit_y=-log10(min(min(safety_probability_optimal)))+1;
-lower_limit_y=-log10(max(max(safety_probability_optimal))*1.01);
-axis_vec = [0.1 norm(umax*ones(1,2*last_time_step)) lower_limit_y upper_limit_y];
+umax_values = [0.05, 0.0625, 0.075, 0.1, 0.5];
+datenowstr_values = {'0x05.mat','0x0625.mat','0x075.mat','0x1.mat','0x5.mat'};
+elapsed_time_tot = 0;
+
+%% Iterate over all data files to get data
+for umax_indx = 1:length(umax_values)
+    % Load data
+    date_of_interest_str = strcat('data/',date_of_interest,'_pareto_',datenowstr_values{umax_indx}); 
+    load(date_of_interest_str);
+    % Get required data
+    mat_control_effort_optimal_norm(umax_indx,:) = control_effort_optimal_norm;
+    mat_safety_probability_optimal(umax_indx,:) = safety_probability_optimal;
+    elapsed_time_tot = elapsed_time_tot + sum(elapsed_time);
+    umax = umax_values(umax_indx);
+end
 
 figure(105)
 clf
